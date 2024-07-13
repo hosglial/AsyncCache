@@ -5,12 +5,11 @@ from asyncio import Event
 from collections.abc import MutableMapping
 from typing import Callable, TypeVar, Any
 
-from cachetools import LRUCache
 from cachetools.keys import hashkey
 
 _KEY = TypeVar("_KEY")
 
-_logger = logging.getLogger('acache')
+_logger = logging.getLogger('asynccachetools')
 
 
 def acached(cache: MutableMapping[_KEY, Any],

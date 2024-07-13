@@ -1,7 +1,7 @@
 [tool.poetry]
-name = "acache"
+name = "asynccachetools"
 version = "0.1.0"
-description = ""
+description = "A wrapper over cachetools for use with asynchronous functions"
 authors = ["Щиголь Алексей <ashchigol@gmail.com>"]
 readme = "README.md"
 license = "MIT"
