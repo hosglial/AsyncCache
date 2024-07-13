@@ -3,25 +3,27 @@ from functools import wraps
 import logging
 from asyncio import Event
 from collections.abc import MutableMapping
-from typing import Callable, TypeVar, Any
+from typing import Callable, TypeVar, Any, Hashable
 
 from cachetools.keys import hashkey
 
 _KEY = TypeVar("_KEY")
+_HashableTuple = tuple[Hashable, ...]
 
 _logger = logging.getLogger('asynccachetools')
 
 
 def acached(cache: MutableMapping[_KEY, Any],
-            key: Callable[..., _KEY] = hashkey
+            key: Callable[..., _KEY] = hashkey,
+            events: dict[_HashableTuple, Event] | None = None
             ):
     """
     A wrapper over cachetools for use with asynchronous functions
 
     Uses event to synchronize the simultaneous execution of coroutines with the same arguments
     """
-    # словарь с events, ключи - tuple из названия функции и её аргументов
-    events: dict[tuple, Event] = dict()
+    if events is None:
+        events = dict()
 
     def decorator(func):
 

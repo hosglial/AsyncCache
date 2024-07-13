@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "asynccachetools"
-version = "0.1.0"
+version = "0.1.1"
 description = "A wrapper over cachetools for use with asynchronous functions"
 authors = ["Щиголь Алексей <ashchigol@gmail.com>"]
 readme = "README.md"
