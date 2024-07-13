@@ -3,7 +3,7 @@ from functools import wraps
 import logging
 from asyncio import Event
 from collections.abc import MutableMapping
-from typing import Callable, TypeVar, Any, Hashable
+from typing import Callable, TypeVar, Any, Hashable, Optional
 
 from cachetools.keys import hashkey
 
@@ -15,7 +15,7 @@ _logger = logging.getLogger('asynccachetools')
 
 def acached(cache: MutableMapping[_KEY, Any],
             key: Callable[..., _KEY] = hashkey,
-            events: dict[_HashableTuple, Event] | None = None
+            events: Optional[dict[_HashableTuple, Event]] = None
             ):
     """
     A wrapper over cachetools for use with asynchronous functions
