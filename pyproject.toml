@@ -1,16 +1,20 @@
 [tool.poetry]
 name = "asynccachetools"
-version = "0.1.1"
+version = "0.1.2"
 description = "A wrapper over cachetools for use with asynchronous functions"
-authors = ["Щиголь Алексей <ashchigol@gmail.com>"]
+authors = ["Shchigol Alexey <ashchigol@gmail.com>"]
 readme = "README.md"
 license = "MIT"
 repository = "https://github.com/hosglial/AsyncCache"
 
 [tool.poetry.dependencies]
-python = "^3.11"
+python = "^3.9"
 cachetools = "^5.3.3"
 
+
+[tool.poetry.group.dev.dependencies]
+flake8 = "^7.1.0"
+pytest = "^8.2.2"
 
 [build-system]
 requires = ["poetry-core"]
