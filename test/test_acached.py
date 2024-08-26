@@ -68,7 +68,7 @@ async def test_ellipsis_args():
     async def foo(_arg1, _arg2):
         await long_mock()
 
-    tasks = [foo(1, ...) for _ in range(100)]
+    tasks = [foo(..., 1) for _ in range(100)]
 
     await asyncio.gather(*tasks)
 
@@ -83,7 +83,22 @@ async def test_ellipsis_kwargs():
     async def foo(_arg1, _arg2):
         await long_mock()
 
-    tasks = [foo(_arg1=1, _arg2=...) for _ in range(100)]
+    tasks = [foo(_arg1=..., _arg2=2) for _ in range(100)]
+
+    await asyncio.gather(*tasks)
+
+    assert long_mock.call_count == 100
+
+
+@pytest.mark.asyncio
+async def test_ellipsis_in_lambda():
+    long_mock.reset_mock()
+
+    @acached(LRUCache(maxsize=128), key=lambda _arg1, _arg2=...: hashkey(_arg2))
+    async def foo(_arg1, _arg2=...):
+        await long_mock()
+
+    tasks = [foo(_arg1=1) for _ in range(100)]
 
     await asyncio.gather(*tasks)
 

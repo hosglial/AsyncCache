@@ -31,8 +31,8 @@ def acached(cache: MutableMapping[_KEY, Any],
         async def wrapper(*args, **kwargs):
             k = key(*args, **kwargs)
 
-            # if ellipsis in args or kwargs - caching disabled
-            if ... in args or ... in kwargs.values():
+            # if ellipsis in hashkeys - caching disabled
+            if ... in k:
                 return await func(*args, **kwargs)
 
             try:
