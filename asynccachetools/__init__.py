@@ -31,6 +31,10 @@ def acached(cache: MutableMapping[_KEY, Any],
         async def wrapper(*args, **kwargs):
             k = key(*args, **kwargs)
 
+            # if ellipsis in args or kwargs - caching disabled
+            if ... in args or ... in kwargs.values():
+                return await func(*args, **kwargs)
+
             try:
                 if k in events:  # if k present in events, wait for another coroutine to complete
                     await events[k].wait()

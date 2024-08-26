@@ -58,3 +58,33 @@ async def test_simultanious_calls():
     await asyncio.gather(*tasks)
 
     long_mock.assert_called_once()
+
+
+@pytest.mark.asyncio
+async def test_ellipsis_args():
+    long_mock.reset_mock()
+
+    @acached(LRUCache(maxsize=128), key=lambda _arg1, _arg2: hashkey(_arg1))
+    async def foo(_arg1, _arg2):
+        await long_mock()
+
+    tasks = [foo(1, ...) for _ in range(100)]
+
+    await asyncio.gather(*tasks)
+
+    assert long_mock.call_count == 100
+
+
+@pytest.mark.asyncio
+async def test_ellipsis_kwargs():
+    long_mock.reset_mock()
+
+    @acached(LRUCache(maxsize=128), key=lambda _arg1, _arg2: hashkey(_arg1))
+    async def foo(_arg1, _arg2):
+        await long_mock()
+
+    tasks = [foo(_arg1=1, _arg2=...) for _ in range(100)]
+
+    await asyncio.gather(*tasks)
+
+    assert long_mock.call_count == 100
